@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face{
+    font-family: "BYekan";
+    src: url("./assets/fonts/Yekan.ttf") format("truetype");
+}
+
+*{
+    text-align: right;
+    direction: rtl;
+    font-family: "BYekan";
+}
