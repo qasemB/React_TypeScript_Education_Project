@@ -1,10 +1,9 @@
-const Sidebar = ({
-  showSidebar,
-  setHiddenSidebar,
-}: {
-  showSidebar: boolean;
-  setHiddenSidebar: () => void;
-}) => {
+import { useAppDispatch, useAppSelector } from "../../redux/reduxHooks";
+import { setShowSidebar } from "../../redux/ui-management/uiManagement";
+
+const Sidebar = () => {
+  const dispatch = useAppDispatch()
+  const {showSidebar} = useAppSelector(state=>state.uiManagerReducer)
   return (
     <section
       id="sidebar"
@@ -13,7 +12,7 @@ const Sidebar = ({
       }`}
     >
       سایدبار
-      <button onClick={setHiddenSidebar}>
+      <button onClick={()=>dispatch(setShowSidebar(false))}>
         بستن منو
       </button>
     </section>
