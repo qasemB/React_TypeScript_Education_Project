@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <section
       id="header"
-      className="fixed top-0 left-0 h-app_header_h w-full bg-red-400 md:pr-app_sidebar_w"
+      className="fixed top-0 left-0 h-app_header_h w-full bg-white dark:bg-gray-700 md:pr-app_sidebar_w shadow-lg"
     >
       <button onClick={()=>dispatch(setShowSidebar(true))}>نمایش سایدبار</button>
     </section>

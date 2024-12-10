@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type InitialStateType = { showSidebar: boolean };
+type ThemeType = "dark"| "light"
 
-const initialState: InitialStateType = { showSidebar: false };
+type InitialStateType = { showSidebar: boolean, theme: ThemeType };
+
+const initialState: InitialStateType = { showSidebar: false, theme: "light" };
 
 const uiManagerSlice = createSlice({
   name: "ui-manager",
@@ -11,10 +13,16 @@ const uiManagerSlice = createSlice({
     setShowSidebar: (state:InitialStateType , action: PayloadAction<boolean>) => {
       state.showSidebar = action.payload;
     },
+    toggleTheme : (state: InitialStateType)=>{
+      state.theme = state.theme === "light" ? "dark" : "light"
+    },
+    setTheme : (state: InitialStateType, action: PayloadAction<ThemeType>)=>{
+      state.theme = action.payload
+    }
   },
 });
 
 const uiManagerReducer = uiManagerSlice.reducer;
 export default uiManagerReducer;
 
-export const { setShowSidebar } = uiManagerSlice.actions;
+export const { setShowSidebar, toggleTheme, setTheme } = uiManagerSlice.actions;
