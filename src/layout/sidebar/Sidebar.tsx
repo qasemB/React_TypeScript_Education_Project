@@ -1,15 +1,11 @@
-import { IoCloseOutline, IoSunnyOutline, IoMoon } from "react-icons/io5";
-import { useAppDispatch, useAppSelector } from "../../redux/reduxHooks";
-import {
-  setShowSidebar,
-  toggleTheme,
-} from "../../redux/ui-management/uiManagement";
-
+import { GoHome } from "react-icons/go";
+import { useAppSelector } from "../../redux/reduxHooks";
+import SidebarItem from "./SidebarItem";
+import TopActionElements from "./TopActionElements";
+import { TbSubtask } from "react-icons/tb";
+import { FaTasks } from "react-icons/fa";
 const Sidebar = () => {
-  const dispatch = useAppDispatch();
-  const { showSidebar, theme } = useAppSelector(
-    (state) => state.uiManagerReducer
-  );
+  const { showSidebar } = useAppSelector((state) => state.uiManagerReducer);
   return (
     <section
       id="sidebar"
@@ -18,17 +14,13 @@ const Sidebar = () => {
       }`}
     >
       <div className="h-full w-full">
-        <div className="flex justify-between items-center">
-          <button
-            className="block"
-            onClick={() => dispatch(setShowSidebar(false))}
-          >
-            <IoCloseOutline size={24} />
-          </button>
-          <button className={`block transform transition-all ${theme === "dark" && "rotate-45"}`} onClick={() => dispatch(toggleTheme())} >
-            {theme === "dark" ? <IoSunnyOutline size={24}/> : <IoMoon size={24}/>}
-          </button>
-        </div>
+        <TopActionElements />
+        <hr className="my-5 border-b dark:border-gray-500" />
+        <ul className="space-y-4">
+          <SidebarItem title="داشبورد" Icon={GoHome}/>
+          <SidebarItem title="دسته بندی ها" Icon={TbSubtask}/>
+          <SidebarItem title="تسک ها" Icon={FaTasks}/>
+        </ul>
       </div>
     </section>
   );
