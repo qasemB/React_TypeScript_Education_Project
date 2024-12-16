@@ -1,16 +1,18 @@
 import { IconType } from "react-icons";
+import { NavLink, To } from "react-router";
 
 type SidebarItemType = {
   title: string;
   Icon: IconType;
+  to: To;
 };
-const SidebarItem = ({ Icon, title }: SidebarItemType) => {
+const SidebarItem = ({ Icon, title, to }: SidebarItemType) => {
   return (
     <li>
-      <span className="flex items-center gap-3">
-        <Icon size={24}/>
+      <NavLink to={to} className={({isActive})=>`flex items-center gap-3 p-1 rounded-md transition-all ${isActive && "bg-sky-500 text-white"}`}>
+        <Icon size={24} />
         {title}
-      </span>
+      </NavLink>
     </li>
   );
 };

@@ -15,11 +15,11 @@ const Sidebar = () => {
     >
       <div className="h-full w-full">
         <TopActionElements />
-        <hr className="my-5 border-b dark:border-gray-500" />
+        <hr className="my-6 border-b dark:border-gray-500" />
         <ul className="space-y-4">
-          <SidebarItem title="داشبورد" Icon={GoHome}/>
-          <SidebarItem title="دسته بندی ها" Icon={TbSubtask}/>
-          <SidebarItem title="تسک ها" Icon={FaTasks}/>
+          <SidebarItem to={"/"} title="داشبورد" Icon={GoHome}/>
+          <SidebarItem to={"/categories"} title="دسته بندی ها" Icon={TbSubtask}/>
+          <SidebarItem to={"/tasks"} title="تسک ها" Icon={FaTasks}/>
         </ul>
       </div>
     </section>
