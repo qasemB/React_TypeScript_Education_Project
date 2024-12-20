@@ -1,18 +1,12 @@
 import { GoHome } from "react-icons/go";
-import { useAppSelector } from "../../redux/reduxHooks";
 import SidebarItem from "./SidebarItem";
 import TopActionElements from "./TopActionElements";
 import { TbSubtask } from "react-icons/tb";
 import { FaTasks } from "react-icons/fa";
+import SidebarContainer from "../../components/containers/SidebarContainer";
 const Sidebar = () => {
-  const { showSidebar } = useAppSelector((state) => state.uiManagerReducer);
   return (
-    <section
-      id="sidebar"
-      className={`p-3 fixed lg:right-0 top-0 w-app_sidebar_w h-screen bg-white dark:bg-gray-700  md:block transition-all border-l border-gray-500 ${
-        showSidebar ? "right-0" : "-right-app_sidebar_w"
-      }`}
-    >
+    <SidebarContainer>
       <div className="h-full w-full">
         <TopActionElements />
         <hr className="my-6 border-b dark:border-gray-500" />
@@ -22,7 +16,7 @@ const Sidebar = () => {
           <SidebarItem to={"/tasks"} title="تسک ها" Icon={FaTasks}/>
         </ul>
       </div>
-    </section>
+    </SidebarContainer>
   );
 };
 
