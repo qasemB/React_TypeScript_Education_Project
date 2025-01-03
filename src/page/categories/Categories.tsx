@@ -3,12 +3,16 @@ import { getTaskCategoriesService } from "../../services/taskCategory";
 import { CategoryListItemType } from "../../types/taskCategory";
 import { convertMiladi2Jalali } from "../../utils/dateUtils";
 import { BsTrash, BsPencil } from "react-icons/bs";
+import { successToast } from "../../utils/toastUtils";
 
 const Categories = () => {
   const [categories, setCategories] = useState<CategoryListItemType[]>([]);
   const handleGetTaskCategories = async () => {
     const data = await getTaskCategoriesService();
-    setCategories(data);
+    if (data) {
+      setCategories(data);
+      successToast()
+    }
   };
   useEffect(() => {
     handleGetTaskCategories();

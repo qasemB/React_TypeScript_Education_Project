@@ -2,13 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face{
-    font-family: "BYekan";
-    src: url("./assets/fonts/Yekan.ttf") format("truetype");
+@font-face {
+  font-family: "BYekan";
+  src: url("./assets/fonts/Yekan.ttf") format("truetype");
 }
 
-*{
-    text-align: right;
-    direction: rtl;
-    font-family: "BYekan";
+* {
+  text-align: right;
+  direction: rtl;
+  font-family: "BYekan" ;
+}
+
+.Toastify__toast {
+  font-family: "BYekan" !important;
 }
