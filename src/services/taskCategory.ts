@@ -1,8 +1,7 @@
-export const getTaskCategoriesService = async ()=>{
-    const respons = await fetch("http://localhost:3001/taskCategories")
-    if (respons.ok) {
-        const res = await respons.json()
-        return res
-    }
-    return null
-}
+import httpService from "./_httpService";
+
+export const getTaskCategoriesService = async () => {
+  const respons = await httpService("/taskCategories", "GET")
+  if (respons.status == 200) return respons.data;
+  return null;
+};
