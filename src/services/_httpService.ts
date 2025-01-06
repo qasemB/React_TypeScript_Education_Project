@@ -29,12 +29,12 @@ axios.interceptors.response.use(
   }
 );
 
-const httpService = <T>(
+const httpService = (
   url: string,
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
   data?: unknown,
   // headers?: AxiosHeaders
-): Promise<AxiosResponse<T>> => {
+): Promise<AxiosResponse<any>> => {
   return axios({
     baseURL: apiPath,
     url,
