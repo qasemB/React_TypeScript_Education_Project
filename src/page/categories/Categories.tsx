@@ -6,15 +6,8 @@ import {
 import { CategoryListItemType } from "../../types/taskCategory";
 import { convertMiladi2Jalali } from "../../utils/dateUtils";
 import { BsTrash, BsPencil } from "react-icons/bs";
-import { successToast } from "../../utils/toastUtils";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { successToast } from "@/utils/toastUtils";
+import AddModalDialog from "./_partials/AddModalDialog";
 
 const Categories = () => {
   const [categories, setCategories] = useState<CategoryListItemType[]>([]);
@@ -41,12 +34,7 @@ const Categories = () => {
     <div>
       <div className="flex justify-between items-center">
         <h1 className="py-5 text-lg font-bold">لیست دسته بندی وظایف</h1>
-        <button
-          className="text-white bg-sky-500 rounded-lg px-3 py-1"
-          onClick={handleAddTaskCategory}
-        >
-          افزودن دسته بندی
-        </button>
+        <AddModalDialog />
       </div>
       <table className="table w-full rounded-lg overflow-hidden shadow-sm bg-white dark:bg-gray-600 dark:shadow-gray-500">
         <thead>
@@ -78,19 +66,6 @@ const Categories = () => {
           ))}
         </tbody>
       </table>
-
-      <Dialog>
-        <DialogTrigger>Open</DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
