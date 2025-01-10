@@ -1,8 +1,10 @@
-export type CategoryListItemType = {
-  id: string;
+export interface AddCategoryType {
   title: string;
   description: string;
-  icon: string;
   userId: string;
   createdAt: string;
+  icon: string;
+};
+export interface  CategoryListItemType extends AddCategoryType {
+  id: string;
 };

@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  addTaskCategoryService,
-  getTaskCategoriesService,
-} from "../../services/taskCategory";
+import { getTaskCategoriesService } from "../../services/taskCategory";
 import { CategoryListItemType } from "../../types/taskCategory";
 import { convertMiladi2Jalali } from "../../utils/dateUtils";
 import { BsTrash, BsPencil } from "react-icons/bs";
@@ -19,22 +16,18 @@ const Categories = () => {
     }
   };
 
-  const handleAddTaskCategory = async () => {
-    const res = await addTaskCategoryService();
-    if (res) {
-      setCategories([...categories, res.data]);
-      successToast();
-    }
-  };
-
   useEffect(() => {
     handleGetTaskCategories();
   }, []);
+
+  const handleChangeCategoriesList = (data: CategoryListItemType) =>
+    setCategories([...categories, data]);
+
   return (
     <div>
       <div className="flex justify-between items-center">
         <h1 className="py-5 text-lg font-bold">لیست دسته بندی وظایف</h1>
-        <AddModalDialog />
+        <AddModalDialog setCategories={handleChangeCategoriesList} />
       </div>
       <table className="table w-full rounded-lg overflow-hidden shadow-sm bg-white dark:bg-gray-600 dark:shadow-gray-500">
         <thead>
