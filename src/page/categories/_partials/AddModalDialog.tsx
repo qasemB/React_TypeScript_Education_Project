@@ -1,3 +1,5 @@
+import AppButton from "@/components/shared/AppButton";
+import AppInput from "@/components/shared/AppInput";
 import {
   Dialog,
   DialogContent,
@@ -40,49 +42,27 @@ const AddModalDialog = ({
           <DialogTitle>افزودن دسته بندی جدید</DialogTitle>
           <DialogDescription className="py-5">
             <form className="max-w-sm mx-auto" onSubmit={handleAddTaskCategory}>
-              <div className="mb-5">
-                <label
-                  htmlFor="title"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  عنوان
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="فقط حروف فارسی"
-                  required
-                  value={values.title}
-                  onChange={(e) =>
-                    setValues({ ...values, title: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-5">
-                <label
-                  htmlFor="description"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  توضیحات
-                </label>
-                <input
-                  type="text"
-                  id="description"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required
-                  value={values.description}
-                  onChange={(e) =>
-                    setValues({ ...values, description: e.target.value })
-                  }
-                />
-              </div>
-              <button
-                type="submit"
-                className="text-white bg-sky-400 hover:bg-sky-600 focus:ring-4 font-medium rounded-full text-sm px-5 py-2.5 text-center w-full"
-              >
-                ثبت
-              </button>
+              <AppInput
+                id="title"
+                title="عنوان"
+                placeholder="فقط حروف فارسی"
+                required
+                value={values.title}
+                onChange={(e) =>
+                  setValues({ ...values, title: e.target.value })
+                }
+              />
+              <AppInput
+                id="description"
+                title="توضیحات"
+                placeholder="فقط حروف فارسی"
+                required
+                value={values.description}
+                onChange={(e) =>
+                  setValues({ ...values, description: e.target.value })
+                }
+              />
+              <AppButton type="submit"/>
             </form>
           </DialogDescription>
         </DialogHeader>
