@@ -12,28 +12,37 @@ import { addTaskCategoryService } from "@/services/taskCategory";
 import { AddCategoryType, CategoryListItemType } from "@/types/taskCategory";
 import { FormEvent, useState } from "react";
 
+const initialValues = {
+  title: "",
+  description: "",
+  createdAt: new Date().toISOString(),
+  userId: "1",
+  icon: "test_icon",
+}
+
 const AddModalDialog = ({
   setCategories,
 }: {
   setCategories: (data: CategoryListItemType) => void;
 }) => {
-  const [values, setValues] = useState<AddCategoryType>({
-    title: "",
-    description: "",
-    createdAt: new Date().toISOString(),
-    userId: "1",
-    icon: "test_icon",
-  });
+
+  const [open, setOpen] = useState(false)
+  const [values, setValues] = useState<AddCategoryType>(initialValues);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddTaskCategory = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true)
     const res = await addTaskCategoryService(values);
     if (res) {
       setCategories(res.data);
+      setOpen(false)
+      setValues(initialValues)
+      setIsLoading(false)
     }
   };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="text-white bg-sky-500 rounded-lg px-3 py-1">
         افزودن
       </DialogTrigger>
@@ -62,7 +71,7 @@ const AddModalDialog = ({
                   setValues({ ...values, description: e.target.value })
                 }
               />
-              <AppButton type="submit"/>
+              <AppButton type="submit" className="disabled:opacity-50" isLoading={isLoading}/>
             </form>
           </DialogDescription>
         </DialogHeader>
