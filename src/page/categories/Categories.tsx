@@ -4,6 +4,7 @@ import { CategoryListItemType } from "../../types/taskCategory";
 import { convertMiladi2Jalali } from "../../utils/dateUtils";
 import { BsTrash, BsPencil } from "react-icons/bs";
 import AddModalDialog from "./_partials/AddModalDialog";
+import { confirmAlert } from "@/utils/alertUtils";
 
 const Categories = () => {
   const [categories, setCategories] = useState<CategoryListItemType[]>([]);
@@ -18,6 +19,14 @@ const Categories = () => {
 
   const handleChangeCategoriesList = (data: CategoryListItemType) =>
     setCategories([...categories, data]);
+
+  const handleDeleteCategory = async (item: CategoryListItemType)=>{
+    const confirm = await confirmAlert('آیا مطمئن هستید؟')
+    if (confirm.isConfirmed){
+      const newCategories = categories.filter((category)=> category.id !== item.id);
+      setCategories(newCategories);
+    }
+  }
 
   return (
     <div>
@@ -47,7 +56,7 @@ const Categories = () => {
               <td>{convertMiladi2Jalali(item.createdAt)}</td>
               <td>
                 <span className="h-full flex justify-center items-center w-full gap-2">
-                  <BsTrash className="text-red-400 cursor-pointer" />
+                  <BsTrash className="text-red-400 cursor-pointer" onClick={()=>handleDeleteCategory(item)}/>
                   <BsPencil className="text-gray-600 dark:text-gray-300 cursor-pointer" />
                 </span>
               </td>
