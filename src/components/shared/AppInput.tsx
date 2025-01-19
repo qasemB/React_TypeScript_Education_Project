@@ -4,7 +4,7 @@ const AppInput = ({ title, id,className, ...rest }: Omit<ComponentProps<"input">
   return (
     <div className="mb-5">
       <label
-        htmlFor="title"
+        htmlFor={id}
         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >
         {title}

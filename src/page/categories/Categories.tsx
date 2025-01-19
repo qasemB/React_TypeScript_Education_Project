@@ -3,17 +3,13 @@ import { getTaskCategoriesService } from "../../services/taskCategory";
 import { CategoryListItemType } from "../../types/taskCategory";
 import { convertMiladi2Jalali } from "../../utils/dateUtils";
 import { BsTrash, BsPencil } from "react-icons/bs";
-import { successToast } from "@/utils/toastUtils";
 import AddModalDialog from "./_partials/AddModalDialog";
 
 const Categories = () => {
   const [categories, setCategories] = useState<CategoryListItemType[]>([]);
   const handleGetTaskCategories = async () => {
     const data = await getTaskCategoriesService();
-    if (data) {
-      setCategories(data);
-      successToast();
-    }
+    if (data) setCategories(data);
   };
 
   useEffect(() => {

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { addTaskCategoryService } from "@/services/taskCategory";
 import { AddCategoryType, CategoryListItemType } from "@/types/taskCategory";
+import { successToast } from "@/utils/toastUtils";
 import { FormEvent, useState } from "react";
 
 const initialValues = {
@@ -36,6 +37,7 @@ const AddModalDialog = ({
     const res = await addTaskCategoryService(values);
     if (res) {
       setCategories(res.data);
+      successToast("دسته بندی با موفقیت افزوده شد");
       setOpen(false)
       setValues(initialValues)
       setIsLoading(false)
