@@ -35,7 +35,7 @@ const AddModalDialog = ({
     e.preventDefault();
     setIsLoading(true)
     const res = await addTaskCategoryService(values);
-    if (res) {
+    if (res.status === 201) {
       setCategories(res.data);
       successToast("دسته بندی با موفقیت افزوده شد");
       setOpen(false)
@@ -73,7 +73,7 @@ const AddModalDialog = ({
                   setValues({ ...values, description: e.target.value })
                 }
               />
-              <AppButton type="submit" className="disabled:opacity-50" isLoading={isLoading}/>
+              <AppButton type="submit" isLoading={isLoading}/>
             </form>
           </DialogDescription>
         </DialogHeader>

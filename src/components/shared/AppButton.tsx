@@ -9,7 +9,7 @@ const AppButton = ({ title, className,isLoading, ...rest }: ComponentProps<"butt
       disabled={isLoading}
     >
       {isLoading ? (
-        <ImSpinner size={24} className="animate-spin"/>
+        <ImSpinner size={24} className="animate-spin disabled:opacity-50"/>
       ) : (title || "ثبت")}
     </button>
   );

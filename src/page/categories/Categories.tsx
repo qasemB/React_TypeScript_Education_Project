@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { getTaskCategoriesService } from "../../services/taskCategory";
+import { deleteTaskCategoryService, getTaskCategoriesService } from "../../services/taskCategory";
 import { CategoryListItemType } from "../../types/taskCategory";
 import { convertMiladi2Jalali } from "../../utils/dateUtils";
 import { BsTrash, BsPencil } from "react-icons/bs";
 import AddModalDialog from "./_partials/AddModalDialog";
 import { confirmAlert } from "@/utils/alertUtils";
+import { successToast } from "@/utils/toastUtils";
 
 const Categories = () => {
   const [categories, setCategories] = useState<CategoryListItemType[]>([]);
@@ -23,8 +24,12 @@ const Categories = () => {
   const handleDeleteCategory = async (item: CategoryListItemType)=>{
     const confirm = await confirmAlert('آیا مطمئن هستید؟')
     if (confirm.isConfirmed){
-      const newCategories = categories.filter((category)=> category.id !== item.id);
-      setCategories(newCategories);
+      const res = await deleteTaskCategoryService(item.id)
+      if (res.status === 200) {
+        const newCategories = categories.filter((category)=> category.id !== item.id);
+        setCategories(newCategories);
+        successToast("رکورد با موفقیت حذف شد")
+      }
     }
   }
 

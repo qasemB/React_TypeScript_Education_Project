@@ -9,3 +9,6 @@ export const getTaskCategoriesService = async () => {
 export const addTaskCategoryService = (values: AddCategoryType) => {
   return httpService("/taskCategories", "POST", values);
 };
+export const deleteTaskCategoryService = (catId: string) => {
+  return httpService(`/taskCategories/${catId}`, "DELETE");
+};
