@@ -36,7 +36,7 @@ const DialogContent = React.forwardRef<
 
   return (
     <DialogPortal>
-      <div className={theme}>
+      <span className={theme}>
         <DialogOverlay />
         <DialogPrimitive.Content
           ref={ref}
@@ -52,7 +52,7 @@ const DialogContent = React.forwardRef<
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         </DialogPrimitive.Content>
-      </div>
+      </span>
     </DialogPortal>
   );
 });

@@ -12,3 +12,6 @@ export const addTaskCategoryService = (values: AddCategoryType) => {
 export const deleteTaskCategoryService = (catId: string) => {
   return httpService(`/taskCategories/${catId}`, "DELETE");
 };
+export const updateTaskCategoryService = (catId: string, values: AddCategoryType) => {
+  return httpService(`/taskCategories/${catId}`, "PUT", values);
+};

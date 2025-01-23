@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { addTaskCategoryService } from "@/services/taskCategory";
+import { addTaskCategoryService, updateTaskCategoryService } from "@/services/taskCategory";
 import { AddCategoryType, CategoryListItemType } from "@/types/taskCategory";
 import { successToast } from "@/utils/toastUtils";
 import { FormEvent, useEffect, useState } from "react";
@@ -44,8 +44,8 @@ const AddModalDialog = ({
   const handleAddTaskCategory = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    const res = await addTaskCategoryService(values);
-    if (res.status === 201) {
+    const res = selectedItem ? await updateTaskCategoryService(selectedItem.id, values) : await addTaskCategoryService(values);
+    if (res.status === 201 || res.status === 200) {
       setCategories(res.data);
       successToast("دسته بندی با موفقیت افزوده شد");
       setOpen(false);

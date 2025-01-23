@@ -23,8 +23,19 @@ const Categories = () => {
     handleGetTaskCategories();
   }, []);
 
-  const handleChangeCategoriesList = (data: CategoryListItemType) =>
-    setCategories([...categories, data]);
+  const handleChangeCategoriesList = (data: CategoryListItemType) =>{
+if (selectedItem) {
+    setCategories(prevdata=>{
+      const index = prevdata.findIndex(q=>q.id === selectedItem.id)
+      const newCategories = [...prevdata]
+      newCategories[index] = data
+      return newCategories
+    });
+}else{
+  setCategories([...categories, data]);
+}
+
+  }
 
   const handleDeleteCategory = async (item: CategoryListItemType) => {
     const confirm = await confirmAlert("آیا مطمئن هستید؟");
