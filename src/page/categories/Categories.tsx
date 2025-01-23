@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { deleteTaskCategoryService, getTaskCategoriesService } from "../../services/taskCategory";
+import {
+  deleteTaskCategoryService,
+  getTaskCategoriesService,
+} from "../../services/taskCategory";
 import { CategoryListItemType } from "../../types/taskCategory";
 import { convertMiladi2Jalali } from "../../utils/dateUtils";
 import { BsTrash, BsPencil } from "react-icons/bs";
@@ -8,6 +11,8 @@ import { confirmAlert } from "@/utils/alertUtils";
 import { successToast } from "@/utils/toastUtils";
 
 const Categories = () => {
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<CategoryListItemType>();
   const [categories, setCategories] = useState<CategoryListItemType[]>([]);
   const handleGetTaskCategories = async () => {
     const data = await getTaskCategoriesService();
@@ -21,23 +26,31 @@ const Categories = () => {
   const handleChangeCategoriesList = (data: CategoryListItemType) =>
     setCategories([...categories, data]);
 
-  const handleDeleteCategory = async (item: CategoryListItemType)=>{
-    const confirm = await confirmAlert('آیا مطمئن هستید؟')
-    if (confirm.isConfirmed){
-      const res = await deleteTaskCategoryService(item.id)
+  const handleDeleteCategory = async (item: CategoryListItemType) => {
+    const confirm = await confirmAlert("آیا مطمئن هستید؟");
+    if (confirm.isConfirmed) {
+      const res = await deleteTaskCategoryService(item.id);
       if (res.status === 200) {
-        const newCategories = categories.filter((category)=> category.id !== item.id);
+        const newCategories = categories.filter(
+          (category) => category.id !== item.id
+        );
         setCategories(newCategories);
-        successToast("رکورد با موفقیت حذف شد")
+        successToast("رکورد با موفقیت حذف شد");
       }
     }
-  }
+  };
 
   return (
     <div>
       <div className="flex justify-between items-center">
         <h1 className="py-5 text-lg font-bold">لیست دسته بندی وظایف</h1>
-        <AddModalDialog setCategories={handleChangeCategoriesList} />
+        <AddModalDialog
+          setCategories={handleChangeCategoriesList}
+          open={open}
+          setOpen={setOpen}
+          selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
+        />
       </div>
       <table className="table w-full rounded-lg overflow-hidden shadow-sm bg-white dark:bg-gray-600 dark:shadow-gray-500">
         <thead>
@@ -61,8 +74,17 @@ const Categories = () => {
               <td>{convertMiladi2Jalali(item.createdAt)}</td>
               <td>
                 <span className="h-full flex justify-center items-center w-full gap-2">
-                  <BsTrash className="text-red-400 cursor-pointer" onClick={()=>handleDeleteCategory(item)}/>
-                  <BsPencil className="text-gray-600 dark:text-gray-300 cursor-pointer" />
+                  <BsTrash
+                    className="text-red-400 cursor-pointer"
+                    onClick={() => handleDeleteCategory(item)}
+                  />
+                  <BsPencil
+                    className="text-gray-600 dark:text-gray-300 cursor-pointer"
+                    onClick={() => {
+                      setOpen(true);
+                      setSelectedItem(item);
+                    }}
+                  />
                 </span>
               </td>
             </tr>

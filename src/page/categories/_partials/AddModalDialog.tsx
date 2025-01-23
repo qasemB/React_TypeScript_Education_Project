@@ -11,7 +11,7 @@ import {
 import { addTaskCategoryService } from "@/services/taskCategory";
 import { AddCategoryType, CategoryListItemType } from "@/types/taskCategory";
 import { successToast } from "@/utils/toastUtils";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const initialValues = {
   title: "",
@@ -19,38 +19,54 @@ const initialValues = {
   createdAt: new Date().toISOString(),
   userId: "1",
   icon: "test_icon",
-}
+};
+
+type AddModalDialogType = {
+  setCategories: (data: CategoryListItemType) => void;
+  open: boolean;
+  setOpen: (isOpen: boolean) => void;
+  selectedItem?: CategoryListItemType;
+  setSelectedItem: React.Dispatch<
+    React.SetStateAction<CategoryListItemType | undefined>
+  >;
+};
 
 const AddModalDialog = ({
   setCategories,
-}: {
-  setCategories: (data: CategoryListItemType) => void;
-}) => {
-
-  const [open, setOpen] = useState(false)
+  open,
+  setOpen,
+  selectedItem,
+  setSelectedItem,
+}: AddModalDialogType) => {
   const [values, setValues] = useState<AddCategoryType>(initialValues);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAddTaskCategory = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
     const res = await addTaskCategoryService(values);
     if (res.status === 201) {
       setCategories(res.data);
       successToast("دسته بندی با موفقیت افزوده شد");
-      setOpen(false)
-      setValues(initialValues)
-      setIsLoading(false)
+      setOpen(false);
+      setValues(initialValues);
+      setIsLoading(false);
     }
   };
+
+  useEffect(()=>{
+   setValues(selectedItem || initialValues)
+  },[selectedItem])
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="text-white bg-sky-500 rounded-lg px-3 py-1">
+      <DialogTrigger className="text-white bg-sky-500 rounded-lg px-3 py-1" onClick={()=>setSelectedItem(undefined)}>
         افزودن
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>افزودن دسته بندی جدید</DialogTitle>
+          <DialogTitle>
+            {selectedItem ? "ویرایش دسته بندی" : " افزودن دسته بندی جدید"}
+          </DialogTitle>
           <DialogDescription className="py-5">
             <form className="max-w-sm mx-auto" onSubmit={handleAddTaskCategory}>
               <AppInput
@@ -73,7 +89,7 @@ const AddModalDialog = ({
                   setValues({ ...values, description: e.target.value })
                 }
               />
-              <AppButton type="submit" isLoading={isLoading}/>
+              <AppButton type="submit" isLoading={isLoading} />
             </form>
           </DialogDescription>
         </DialogHeader>
