@@ -1,3 +1,5 @@
+import { TaskListType } from "./task";
+
 export interface AddCategoryType {
   title: string;
   description: string;
@@ -7,4 +9,7 @@ export interface AddCategoryType {
 };
 export interface  CategoryListItemType extends AddCategoryType {
   id: string;
+};
+export interface  CategoryWhithTasksListItemType extends CategoryListItemType {
+  tasks: TaskListType[]
 };

@@ -6,6 +6,10 @@ export const getTaskCategoriesService = async () => {
   if (respons.status == 200) return respons.data;
   return null;
 };
+export const getTaskCategoriesWithTasksService = () => {
+  return httpService("/taskCategories?_embed=tasks", "GET");
+};
+
 export const addTaskCategoryService = (values: AddCategoryType) => {
   return httpService("/taskCategories", "POST", values);
 };
