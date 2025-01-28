@@ -1,7 +1,8 @@
-import { addTaskService, editTaskService } from "@/services/task";
+import { addTaskService, deleteTaskService, editTaskService } from "@/services/task";
 import { getTaskCategoriesWithTasksService } from "@/services/taskCategory";
 import { TaskListType } from "@/types/task";
 import { CategoryWhithTasksListItemType } from "@/types/taskCategory";
+import { confirmAlert } from "@/utils/alertUtils";
 import {
   compareDates,
   convertMiladi2Jalali,
@@ -55,6 +56,17 @@ const Tasks = () => {
     }
   }
 
+  const handleDeleteTask = async ( e:React.MouseEvent<HTMLSpanElement, MouseEvent>,task: TaskListType)=>{
+    e.preventDefault()
+    const confirm = await confirmAlert(task.title, "آیا از حذف این آیتم اطمینان داری؟")
+    if (!confirm.isConfirmed) return null
+    const res = await deleteTaskService(task.id)
+    if (res.status === 200) {
+      successToast()
+      handleGetTasks()
+    }
+  }
+
   useEffect(() => {
     generateDatesInRange();
   }, []);
@@ -99,6 +111,7 @@ const Tasks = () => {
                     <span
                       key={task.id}
                       onClick={() => handleChangeIsDone(task)}
+                      onContextMenu={(e)=>handleDeleteTask(e, task)}
                       className={`rounded-sm cursor-pointer ${
                         task.isDone ? "bg-green-400" : "bg-blue-400"
                       }`}

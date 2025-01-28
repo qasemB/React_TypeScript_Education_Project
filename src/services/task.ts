@@ -11,3 +11,7 @@ export const editTaskService = (
 export const addTaskService = (values: AddTaskListType) => {
   return httpService(`/tasks`, "POST", values);
 };
+
+export const deleteTaskService = (taskId: string) => {
+  return httpService(`/tasks/${taskId}`, "DELETE");
+};
