@@ -1,19 +1,18 @@
+import { editTaskService } from "@/services/task";
 import { getTaskCategoriesWithTasksService } from "@/services/taskCategory";
+import { TaskListType } from "@/types/task";
 import { CategoryWhithTasksListItemType } from "@/types/taskCategory";
 import {
   compareDates,
   convertMiladi2Jalali,
   getDatesInRange,
 } from "@/utils/dateUtils";
+import { successToast } from "@/utils/toastUtils";
 import { useEffect, useState } from "react";
 
 const Tasks = () => {
-  const [dates, setDates] = useState<{ gregorian: string; jalali: string }[]>(
-    []
-  );
-  const [taskCats, setTaskCats] = useState<CategoryWhithTasksListItemType[]>(
-    []
-  );
+  const [dates, setDates] = useState<{ gregorian: string; jalali: string }[]>([]);
+  const [taskCats, setTaskCats] = useState<CategoryWhithTasksListItemType[]>([]);
 
   const generateDatesInRange = () => {
     const resDates = getDatesInRange(3, 5);
@@ -30,6 +29,14 @@ const Tasks = () => {
       setTaskCats(res.data);
     }
   };
+
+  const handleChangeIsDone = async (task: TaskListType)=>{
+    const res = await editTaskService(task.id, {isDone: !task.isDone})
+    if (res.status === 200) {
+      successToast()
+      handleGetTasks()
+    }
+  }
 
   useEffect(() => {
     generateDatesInRange();
@@ -61,9 +68,12 @@ const Tasks = () => {
               {taskCats.map((tc) => (
                 <td key={tc.id} className="text-center space-x-1">
                   {tc.tasks.map((task) => (
-                    <span className="bg-blue-400 rounded-sm" key={task.id}>
-                      {compareDates(task.startedAt, date.gregorian) &&
-                        task.title}
+                    <span 
+                    key={task.id} 
+                    onClick={()=>handleChangeIsDone(task)}
+                    className={`rounded-sm cursor-pointer ${task.isDone ? "bg-green-400" : "bg-blue-400"}`} 
+                    >
+                      {compareDates(task.startedAt, date.gregorian) && task.title}
                     </span>
                   ))}
                 </td>
