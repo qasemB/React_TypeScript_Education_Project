@@ -47,7 +47,7 @@ const AddModalDialog = ({
     const res = selectedItem ? await updateTaskCategoryService(selectedItem.id, values) : await addTaskCategoryService(values);
     if (res.status === 201 || res.status === 200) {
       setCategories(res.data);
-      successToast("دسته بندی با موفقیت افزوده شد");
+      successToast();
       setOpen(false);
       setValues(initialValues);
       setIsLoading(false);

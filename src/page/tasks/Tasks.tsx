@@ -1,11 +1,19 @@
 import { getTaskCategoriesWithTasksService } from "@/services/taskCategory";
 import { CategoryWhithTasksListItemType } from "@/types/taskCategory";
-import { convertMiladi2Jalali, getDatesInRange } from "@/utils/dateUtils";
+import {
+  compareDates,
+  convertMiladi2Jalali,
+  getDatesInRange,
+} from "@/utils/dateUtils";
 import { useEffect, useState } from "react";
 
 const Tasks = () => {
-  const [dates, setDates] = useState<{ gregorian: string; jalali: string }[]>([]);
-  const [taskCats, setTaskCats] = useState<CategoryWhithTasksListItemType[]>([]);
+  const [dates, setDates] = useState<{ gregorian: string; jalali: string }[]>(
+    []
+  );
+  const [taskCats, setTaskCats] = useState<CategoryWhithTasksListItemType[]>(
+    []
+  );
 
   const generateDatesInRange = () => {
     const resDates = getDatesInRange(3, 5);
@@ -51,7 +59,14 @@ const Tasks = () => {
             >
               <td> {date.jalali} </td>
               {taskCats.map((tc) => (
-                <td key={tc.id} className="text-center">{"..."}</td>
+                <td key={tc.id} className="text-center space-x-1">
+                  {tc.tasks.map((task) => (
+                    <span className="bg-blue-400 rounded-sm" key={task.id}>
+                      {compareDates(task.startedAt, date.gregorian) &&
+                        task.title}
+                    </span>
+                  ))}
+                </td>
               ))}
             </tr>
           ))}
