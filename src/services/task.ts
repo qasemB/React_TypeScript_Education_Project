@@ -7,3 +7,7 @@ export const editTaskService = (
 ) => {
   return httpService(`/tasks/${taskId}`, "PATCH", values);
 };
+
+export const addTaskService = (values: AddTaskListType) => {
+  return httpService(`/tasks`, "POST", values);
+};
