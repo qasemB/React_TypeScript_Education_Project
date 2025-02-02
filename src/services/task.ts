@@ -15,3 +15,7 @@ export const addTaskService = (values: AddTaskListType) => {
 export const deleteTaskService = (taskId: string) => {
   return httpService(`/tasks/${taskId}`, "DELETE");
 };
+
+export const getTaskWithDate = (date: string) => {
+  return httpService(`/tasks?startedAt_like=${date}`, "GET");
+};
