@@ -2,9 +2,11 @@ import AppButton from "@/components/shared/AppButton";
 import { getTaskWithDate } from "@/services/task";
 import { TaskListType } from "@/types/task";
 import { useEffect, useState } from "react";
+import AddTaskModal from "./_partials/AddTaskModal";
 
 const Dashboard = () => {
   const [todayTasks, setTodayTasks] = useState<TaskListType[]>([]);
+  const [openAddModal, setOpenAddModal] = useState(false);
 
   const handleGetTodayTasks = async () => {
     const today = new Date().toISOString().split("T")[0];
@@ -37,7 +39,8 @@ const Dashboard = () => {
         ) : (
           <h1 className="text-center w-full">امروز تسکی نداری... 😴</h1>
         )}
-        <AppButton title="افزودن تسک" />
+        <AppButton title="افزودن تسک" onClick={() => setOpenAddModal(true)} />
+        <AddTaskModal open={openAddModal} setOpen={setOpenAddModal} />
       </div>
     </div>
   );
