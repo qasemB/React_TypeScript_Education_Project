@@ -61,9 +61,9 @@ const AddTaskModal = ({ open, setOpen, handleRefresh }: AddTaskModalType) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle> افزودن تسک جدید</DialogTitle>
-          <DialogDescription className="py-5">
+          <DialogDescription></DialogDescription>
             <form
-              className="max-w-sm mx-auto space-y-5"
+              className="max-w-sm mx-auto space-y-5 py-5 w-full"
               onSubmit={handleAddTask}
             >
               <AppSelect
@@ -84,7 +84,7 @@ const AddTaskModal = ({ open, setOpen, handleRefresh }: AddTaskModalType) => {
               />
               <AppButton type="submit" isLoading={isLoading} />
             </form>
-          </DialogDescription>
+          
         </DialogHeader>
       </DialogContent>
     </Dialog>

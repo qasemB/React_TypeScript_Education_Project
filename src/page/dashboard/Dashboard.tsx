@@ -30,7 +30,7 @@ const Dashboard = () => {
                 className="w-full rounded-sm border-gray-400 border py-2 px-3 hover:shadow-md cursor-pointer transition-all flex justify-between items-center"
               >
                 <span>{task.title}</span>
-                <span>{task.taskCategoryId}</span>                
+                <span>{task.taskCategory.title}</span>                
               </li>
             ))}
           </ul>

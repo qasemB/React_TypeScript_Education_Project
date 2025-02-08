@@ -8,7 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { addTaskCategoryService, updateTaskCategoryService } from "@/services/taskCategory";
+import {
+  addTaskCategoryService,
+  updateTaskCategoryService,
+} from "@/services/taskCategory";
 import { AddCategoryType, CategoryListItemType } from "@/types/taskCategory";
 import { successToast } from "@/utils/toastUtils";
 import { FormEvent, useEffect, useState } from "react";
@@ -44,7 +47,9 @@ const AddModalDialog = ({
   const handleAddTaskCategory = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    const res = selectedItem ? await updateTaskCategoryService(selectedItem.id, values) : await addTaskCategoryService(values);
+    const res = selectedItem
+      ? await updateTaskCategoryService(selectedItem.id, values)
+      : await addTaskCategoryService(values);
     if (res.status === 201 || res.status === 200) {
       setCategories(res.data);
       successToast();
@@ -54,12 +59,15 @@ const AddModalDialog = ({
     }
   };
 
-  useEffect(()=>{
-   setValues(selectedItem || initialValues)
-  },[selectedItem])
+  useEffect(() => {
+    setValues(selectedItem || initialValues);
+  }, [selectedItem]);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="text-white bg-sky-500 rounded-lg px-3 py-1" onClick={()=>setSelectedItem(undefined)}>
+      <DialogTrigger
+        className="text-white bg-sky-500 rounded-lg px-3 py-1"
+        onClick={() => setSelectedItem(undefined)}
+      >
         افزودن
       </DialogTrigger>
       <DialogContent>
@@ -67,31 +75,31 @@ const AddModalDialog = ({
           <DialogTitle>
             {selectedItem ? "ویرایش دسته بندی" : " افزودن دسته بندی جدید"}
           </DialogTitle>
-          <DialogDescription className="py-5">
-            <form className="max-w-sm mx-auto" onSubmit={handleAddTaskCategory}>
-              <AppInput
-                id="title"
-                title="عنوان"
-                placeholder="فقط حروف فارسی"
-                required
-                value={values.title}
-                onChange={(e) =>
-                  setValues({ ...values, title: e.target.value })
-                }
-              />
-              <AppInput
-                id="description"
-                title="توضیحات"
-                placeholder="فقط حروف فارسی"
-                required
-                value={values.description}
-                onChange={(e) =>
-                  setValues({ ...values, description: e.target.value })
-                }
-              />
-              <AppButton type="submit" isLoading={isLoading} />
-            </form>
-          </DialogDescription>
+          <DialogDescription></DialogDescription>
+          <form
+            className="max-w-sm mx-auto py-5 w-full"
+            onSubmit={handleAddTaskCategory}
+          >
+            <AppInput
+              id="title"
+              title="عنوان"
+              placeholder="فقط حروف فارسی"
+              required
+              value={values.title}
+              onChange={(e) => setValues({ ...values, title: e.target.value })}
+            />
+            <AppInput
+              id="description"
+              title="توضیحات"
+              placeholder="فقط حروف فارسی"
+              required
+              value={values.description}
+              onChange={(e) =>
+                setValues({ ...values, description: e.target.value })
+              }
+            />
+            <AppButton type="submit" isLoading={isLoading} />
+          </form>
         </DialogHeader>
       </DialogContent>
     </Dialog>
