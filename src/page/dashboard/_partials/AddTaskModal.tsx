@@ -8,31 +8,53 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { AddCategoryType } from "@/types/taskCategory";
-import { FormEvent, useState } from "react";
-
-const initialValues = {
-  title: "",
-  description: "",
-  createdAt: new Date().toISOString(),
-  userId: "1",
-  icon: "test_icon",
-};
+import { addTaskService } from "@/services/task";
+import { getTaskCategoriesService } from "@/services/taskCategory";
+import { CategoryListItemType } from "@/types/taskCategory";
+import { errorToast, successToast } from "@/utils/toastUtils";
+import { FormEvent, useEffect, useState } from "react";
 
 type AddTaskModalType = {
   open: boolean;
   setOpen: (isOpen: boolean) => void;
+  handleRefresh: () => void;
 };
 
-const AddTaskModal = ({ open, setOpen }: AddTaskModalType) => {
-  const [values, setValues] = useState<AddCategoryType>(initialValues);
+const AddTaskModal = ({ open, setOpen, handleRefresh }: AddTaskModalType) => {
+  const [title, setTitle] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const [categories, setCategories] = useState<CategoryListItemType[]>([]);
+
+  const handleGetTaskCategories = async () => {
+    const data = await getTaskCategoriesService();
+    if (data) setCategories(data);
+  };
 
   const handleAddTask = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!selectedCategory || !title.trim()) return errorToast("فیلد ها رو پر کنید");
     setIsLoading(true);
+    const today = new Date().toISOString();
+    const res = await addTaskService({
+      createdAt: today,
+      startedAt: today,
+      isDone: false,
+      taskCategoryId: selectedCategory,
+      title,
+    });
     setIsLoading(false);
+    if (res.status === 201) {
+      successToast();
+      handleRefresh();
+      setTitle("");
+      setOpen(false)
+    }
   };
+
+  useEffect(() => {
+    handleGetTaskCategories();
+  }, []);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -40,17 +62,25 @@ const AddTaskModal = ({ open, setOpen }: AddTaskModalType) => {
         <DialogHeader>
           <DialogTitle> افزودن تسک جدید</DialogTitle>
           <DialogDescription className="py-5">
-            <form className="max-w-sm mx-auto space-y-5" onSubmit={handleAddTask}>
-              <AppSelect title="دسته بندی"/>
+            <form
+              className="max-w-sm mx-auto space-y-5"
+              onSubmit={handleAddTask}
+            >
+              <AppSelect
+                title="دسته بندی"
+                onChange={(id: string) => setSelectedCategory(id)}
+                options={categories.map((category) => ({
+                  title: category.title,
+                  value: category.id,
+                }))}
+              />
               <AppInput
                 id="title"
                 title="عنوان"
                 placeholder="فقط حروف فارسی"
                 required
-                value={values.title}
-                onChange={(e) =>
-                  setValues({ ...values, title: e.target.value })
-                }
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <AppButton type="submit" isLoading={isLoading} />
             </form>

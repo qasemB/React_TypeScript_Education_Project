@@ -10,10 +10,7 @@ const Dashboard = () => {
 
   const handleGetTodayTasks = async () => {
     const today = new Date().toISOString().split("T")[0];
-    console.log(today);
-
     const res = await getTaskWithDate(today);
-    console.log(res);
     if (res.status === 200) {
       setTodayTasks(res.data);
     }
@@ -30,9 +27,10 @@ const Dashboard = () => {
             {todayTasks?.map((task) => (
               <li
                 key={task.id}
-                className="w-full rounded-sm border-gray-400 border py-2 px-3 hover:shadow-md cursor-pointer transition-all"
+                className="w-full rounded-sm border-gray-400 border py-2 px-3 hover:shadow-md cursor-pointer transition-all flex justify-between items-center"
               >
-                {task.title}
+                <span>{task.title}</span>
+                <span>{task.taskCategoryId}</span>                
               </li>
             ))}
           </ul>
@@ -40,7 +38,7 @@ const Dashboard = () => {
           <h1 className="text-center w-full">امروز تسکی نداری... 😴</h1>
         )}
         <AppButton title="افزودن تسک" onClick={() => setOpenAddModal(true)} />
-        <AddTaskModal open={openAddModal} setOpen={setOpenAddModal} />
+        <AddTaskModal open={openAddModal} setOpen={setOpenAddModal} handleRefresh = {handleGetTodayTasks}/>
       </div>
     </div>
   );

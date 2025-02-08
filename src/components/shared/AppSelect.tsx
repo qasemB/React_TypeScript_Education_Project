@@ -7,22 +7,34 @@ import {
 } from "@/components/ui/select";
 import { ComponentProps } from "react";
 
-const AppSelect = ({ title, className, ...rest }: Omit<ComponentProps<"select">, "title"> & {title: string}) => {
+type AppSelectType = Omit<ComponentProps<"select">, "title" | "onChange"> & {
+  title: string;
+  onChange: (val: string) => void;
+  options: { value: string; title: string }[];
+};
+
+const AppSelect = ({
+  title,
+  className,
+  onChange,
+  options,
+  ...rest
+}: AppSelectType) => {
   return (
     <div className="mb-5">
-      <label
-        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >
+      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
         {title}
       </label>
-      <Select>
+      <Select onValueChange={(val) => onChange(val)}>
         <SelectTrigger className={`shadow-none h-10 ${className}`}>
-          <SelectValue placeholder="انتخاب دسته بندی" {...rest} />
+          <SelectValue placeholder={title} {...rest} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="light">دسته 1</SelectItem>
-          <SelectItem value="dark">دسته 2</SelectItem>
-          <SelectItem value="system">دسته 3</SelectItem>
+          {options.map((option, i) => (
+            <SelectItem key={option.value + i} value={option.value}>
+              {option.title}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>
